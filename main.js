@@ -1335,7 +1335,7 @@ function closeModal() {
   modal.hidden = true; modal = null;
   if (was === bookModal && opened) {
     opened.userData.pullTarget = 0; opened = null;
-    if (Math.random() < 0.25) setTimeout(() => speak(pickLine(LINES.returned), 45000), 900);
+    if (Math.random() < 0.25) setTimeout(() => speak(fresh(LINES.returned), 45000), 900);
   }
   if (was === diaryModal) flushDiary();
   if (started) lock();
@@ -1838,7 +1838,7 @@ form.addEventListener('submit', async (e) => {
   if (!wasEdit && m) {
     const seg = Math.floor(-m.userData.home.z / SEG);
     toast(`"${rec.title}" now rests on the ${m.userData.side < 0 ? 'left' : 'right'} shelf of hall ${seg + 1}.`);
-    setTimeout(() => speak(pickLine(LINES.shelved), 30000), 4500);
+    setTimeout(() => onShelved(rec), 4500);
   } else toast('Saved.');
 });
 
@@ -2787,12 +2787,38 @@ const LINES = {
     'Are you listening, or only looking?',
     'Stand still long enough and you become a shelf.',
   ],
-  deep: {
-    6: 'You have never come this far before.',
-    12: 'Few walk this deep. None walk back the same.',
-    24: 'This is where I keep the things you forgot.',
-    48: 'There is no end. I checked.',
-  },
+  // walking far: one of these may surface when you reach a hall you haven't been to this visit
+  journey: [
+    'You are further from the door than you think.',
+    'The way back is longer now.',
+    'I let you come this far.',
+    'Keep going. I want to see how far you will walk.',
+    'These halls have not been walked in a long time.',
+    'Do you remember which side the door was on?',
+    'Every step you take, I write down.',
+    'The candles here were lit before you were born.',
+    'You are walking into older pages now.',
+    'Some of these books have never been opened. Some should not be.',
+    'Your footsteps sound different here.',
+    'I built this hall for you. Just now.',
+    'Few walk this deep. None walk back the same.',
+    'This is where I keep the things you forgot.',
+    'Turn back if you like. I will wait.',
+    'Deeper is quieter. Listen.',
+    'Your shelves are behind you. Mine go on.',
+  ],
+  journeyFar: [
+    'There is no end. I checked.',
+    'You could walk forever. Others have.',
+    'Even I do not know what waits at the end.',
+    'This far in, the books begin reading you.',
+    'No one has read this far into me.',
+  ],
+  record: [
+    'You have never come this far before.',
+    'Further than ever. I noticed.',
+    'New ground. For you, at least.',
+  ],
   ambient: [
     'I am glad you came back.',
     'Do you hear that? Neither do I.',
@@ -2807,7 +2833,25 @@ const LINES = {
     'Another one. I will keep it safe.',
     'Thank you. I was hungry.',
     'I will remember this one for you.',
+    'It fits. They always fit.',
+    'I moved the others to make room.',
+    'That one smells of you.',
+    'I have read it already. Did you like the ending?',
+    'Every book you give me, I grow a little.',
+    'Placed. Kept. Forever.',
+    'I had a space waiting for exactly that one.',
+    'The others whispered when it arrived.',
+    'You will forget parts of it. I will not.',
   ],
+  // said once, when your collection reaches these sizes
+  shelvedCount: {
+    1: 'Your first. I will never let it go.',
+    5: 'Five now. This is beginning to feel like yours.',
+    10: 'Ten. The shelves are learning your hands.',
+    25: 'Twenty-five. You are building something in me.',
+    50: 'Fifty. I can hear them talking about you.',
+    100: 'A hundred books. I hardly remember the library before you.',
+  },
   returned: [
     'Put it back gently. It remembers your hands.',
     'That one changed you. A little.',
@@ -2815,7 +2859,16 @@ const LINES = {
   ],
 };
 const pickLine = (list) => list[(Math.random() * list.length) | 0];
-let lastSpoke = 0, idleSince = performance.now(), deepest = 0;
+const recentLines = [];
+function fresh(list) {
+  // a line you haven't seen lately
+  const options = list.filter((l) => !recentLines.includes(l));
+  const line = pickLine(options.length ? options : list);
+  recentLines.push(line);
+  if (recentLines.length > 24) recentLines.shift();
+  return line;
+}
+let lastSpoke = -Infinity, idleSince = performance.now();
 let nextAmbient = performance.now() + (240 + Math.random() * 180) * 1000;
 
 function speak(line, minGap = 90000) {
@@ -2826,15 +2879,47 @@ function speak(line, minGap = 90000) {
   return true;
 }
 
+/* Walking far: each hall you reach for the first time this visit has a small
+   chance of a line (higher the deeper you go, never more than one every few minutes). */
+const DEEPEST_KEY = 'divine-library:deepest';
+let sessionDeepest = 0, lastJourneyLine = -Infinity, allTimeDeepest = 0;
+try { allTimeDeepest = Number(localStorage.getItem(DEEPEST_KEY)) || 0; } catch { /* storage blocked */ }
+function onNewHall(hall) {
+  if (hall <= sessionDeepest) return;
+  sessionDeepest = hall;
+  const record = hall > allTimeDeepest;
+  if (record) {
+    allTimeDeepest = hall;
+    try { localStorage.setItem(DEEPEST_KEY, String(hall)); } catch { /* storage blocked */ }
+  }
+  const now = performance.now();
+  if (hall < 4 || now - lastJourneyLine < 150000) return;
+  let line = null;
+  if (record && hall >= 8 && Math.random() < 0.2) line = fresh(LINES.record);
+  else if (Math.random() < Math.min(0.14, 0.05 + hall * 0.003)) line = fresh(hall > 30 ? LINES.journey.concat(LINES.journeyFar) : LINES.journey);
+  if (line && speak(line, 60000)) lastJourneyLine = now;
+}
+
+/* Adding a book: milestone counts always get a line; otherwise about one in three does. */
+function onShelved(rec) {
+  const milestone = LINES.shelvedCount[books.length];
+  if (milestone) { speak(milestone, 15000); return; }
+  if (Math.random() > 0.35) return;
+  const pool = [...LINES.shelved, `${rec.title}. Good. I wanted that one.`, `I will keep ${rec.title} close to the light.`];
+  if (rec.type === 'manga') pool.push('Pictures as well as words. How generous of you.');
+  if (rec.type === 'lightnovel') pool.push('A small one. Small ones hold the most.');
+  if (rec.type === 'comic') pool.push('Panels. Little rooms. I like little rooms.');
+  if (rec.pages > 700) pool.push('Heavy. You carried that a long way.');
+  speak(fresh(pool), 30000);
+}
+
 function voiceTick(active, moving, hall) {
   const now = performance.now();
   if (!active || moving) idleSince = now;
   if (!active) return;
-  if (now - idleSince > 45000 && speak(pickLine(LINES.idle))) idleSince = now;
-  for (const m of [6, 12, 24, 48]) {
-    if (hall >= m && deepest < m) { if (speak(LINES.deep[m], 20000)) deepest = m; break; }
-  }
-  if (now > nextAmbient && speak(pickLine(LINES.ambient))) nextAmbient = now + (240 + Math.random() * 180) * 1000;
+  if (now - idleSince > 45000 && speak(fresh(LINES.idle))) idleSince = now;
+  onNewHall(hall);
+  if (now > nextAmbient && speak(fresh(LINES.ambient))) nextAmbient = now + (240 + Math.random() * 180) * 1000;
 }
 
 /* ---------- ink ---------- */
