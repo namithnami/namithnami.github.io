@@ -381,3 +381,9 @@ body.reading #hud, body.reading #crosshair, body.reading #hover-label { display:
 #whisper.show .w { opacity: 0.85; filter: blur(0); transform: translateY(0); }
 #whisper.leave .w { opacity: 0; filter: blur(12px); transition: opacity 2.8s ease, filter 3s ease; transition-delay: 0s !important; }
 body.reading #whisper { display: none; }
+
+/* graphics setting: the chosen option reads as plain gold text */
+.graphics-row { margin-top: 18px; }
+.graphics-row .link.on { color: var(--gold-2); text-decoration: none; cursor: default; }
+.intro-inner > .graphics-row { opacity: 0; transition: opacity 1.8s ease; }
+.intro-inner.ready > .graphics-row { opacity: 1; transition-delay: 3.5s; }
