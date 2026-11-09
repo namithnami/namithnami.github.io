@@ -387,3 +387,13 @@ body.reading #whisper { display: none; }
 .graphics-row .link.on { color: var(--gold-2); text-decoration: none; cursor: default; }
 .intro-inner > .graphics-row { opacity: 0; transition: opacity 1.8s ease; }
 .intro-inner.ready > .graphics-row { opacity: 1; transition-delay: 3.5s; }
+
+/* ---------- menu: a short fade and rise; no words over it ---------- */
+#intro.opening { animation: menu-in 0.3s ease-out both; }
+#intro.opening .intro-inner { animation: menu-rise 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+#intro.closing { animation: menu-out 0.22s ease-in both; pointer-events: none; }
+@keyframes menu-in { from { opacity: 0; } }
+@keyframes menu-rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes menu-out { to { opacity: 0; } }
+#whisper { transition: opacity 0.3s ease; }
+body.menu-open #whisper { opacity: 0; }

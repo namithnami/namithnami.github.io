@@ -345,7 +345,33 @@ const M = {
   flame: new THREE.SpriteMaterial({ map: flameTex, color: 0xffffff, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }),
   poolTable: new THREE.MeshBasicMaterial({ map: glowTex, color: 0xff9c50, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.2 }),
   poolFloor: new THREE.MeshBasicMaterial({ map: glowTex, color: 0xff8a40, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.08 }),
-  shaft: new THREE.MeshBasicMaterial({ map: beamTex, color: 0xffc78a, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.03, side: THREE.DoubleSide }),
+  // The light cone under each lamp. Its brightness falls off toward the cone's
+  // silhouette (where you look along the surface) and toward the floor, so it
+  // reads as haze in the air rather than a solid shape with hard edges.
+  shaft: new THREE.ShaderMaterial({
+    uniforms: { color: { value: new THREE.Color(0xffc78a) }, strength: { value: 0.03 }, fogDensity: { value: 0.1 } },
+    vertexShader: `
+      varying vec3 vNormal; varying vec3 vView; varying float vUp; varying float vDist;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vNormal = normalize(normalMatrix * normal);
+        vView = normalize(-mv.xyz);
+        vUp = uv.y;
+        vDist = length(mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `
+      uniform vec3 color; uniform float strength; uniform float fogDensity;
+      varying vec3 vNormal; varying vec3 vView; varying float vUp; varying float vDist;
+      void main() {
+        float facing = abs(dot(normalize(vNormal), normalize(vView)));
+        float soft = pow(facing, 1.6);                 // fades out at the edges
+        float fall = pow(vUp, 1.5);                    // fades out toward the floor
+        float fog = exp(-pow(fogDensity * vDist, 2.0));
+        gl_FragColor = vec4(color * strength * soft * fall * fog, 1.0);
+      }`,
+    blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+  }),
   webs: webTexes.map((t) => new THREE.MeshBasicMaterial({ map: t, transparent: true, opacity: 0.32, depthWrite: false, side: THREE.DoubleSide, color: 0xbdb3a2 })),
   leathers: LEATHER.map((c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.62, normalMap: grainN, normalScale: V2(0.8, 0.8) })),
 };
@@ -1265,8 +1291,14 @@ document.addEventListener('pointerlockchange', () => {
 });
 document.addEventListener('pointerlockerror', () => { if (!everLocked) enableFreeMode(); });
 
+let menuTimer = null, menuOpenedAt = 0;
 function openMenu() {
+  clearTimeout(menuTimer);
+  menu.classList.remove('closing');
   menu.hidden = false;
+  menu.classList.remove('opening'); void menu.offsetWidth; menu.classList.add('opening');
+  menuOpenedAt = performance.now();
+  document.body.classList.add('menu-open');     // hides any words the library is saying
   hud.hidden = true;
   keys.clear();
   setHover(null);
@@ -1280,9 +1312,14 @@ function openMenu() {
 }
 
 function hideMenu() {
-  menu.hidden = true;
+  document.body.classList.remove('menu-open');
   if (started) hud.hidden = false;
+  if (menu.hidden || menu.classList.contains('closing')) return;
+  menu.classList.add('closing');
+  clearTimeout(menuTimer);
+  menuTimer = setTimeout(() => { menu.hidden = true; menu.classList.remove('closing', 'opening'); }, 220);
 }
+const menuOpen = () => !menu.hidden && !menu.classList.contains('closing');
 
 function openModal(el) {
   modal = el; el.hidden = false;
@@ -1517,6 +1554,15 @@ document.addEventListener('keydown', (e) => {
   }
   if (modal) {
     if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
+    return;
+  }
+  if (started && menuOpen() && e.key === 'Escape') {
+    // Esc again closes the menu. Browsers won't recapture the mouse from the Esc key,
+    // so you can walk straight away and click once to look around.
+    if (performance.now() - menuOpenedAt < 350) return;   // the same press that opened it
+    e.preventDefault();
+    hideMenu();
+    if (!freeMode && !isLocked()) toast('Click to look around.');
     return;
   }
   if (!started || !menu.hidden || fading) return;
@@ -2774,7 +2820,7 @@ let nextAmbient = performance.now() + (240 + Math.random() * 180) * 1000;
 
 function speak(line, minGap = 90000) {
   const now = performance.now();
-  if (whispering || now - lastSpoke < minGap) return false;
+  if (whispering || now - lastSpoke < minGap || !menu.hidden || modal || readingNow()) return false;
   lastSpoke = now;
   whisper(line);
   return true;
@@ -2999,7 +3045,7 @@ function update(dt, time) {
     s.mats.bulb.emissiveIntensity = 1.1 * f;
     s.mats.inner.emissiveIntensity = 0.3 * f;
     s.mats.glow.opacity = 0.2 * f;
-    s.mats.shaft.opacity = 0.014 * f;
+    s.mats.shaft.uniforms.strength.value = 0.03 * f;
     s.poolMatT.opacity = 0.2 * f;
     s.poolMatF.opacity = 0.08 * f;
   }
