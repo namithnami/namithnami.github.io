@@ -360,3 +360,24 @@ body.reading #hud, body.reading #crosshair, body.reading #hover-label { display:
 #device-note { z-index: 60; background: #070504; }
 .device-inner { max-width: 420px; font-size: 19px; line-height: 1.55; color: var(--ink); }
 .device-inner .link { margin-top: 18px; }
+
+/* after the first writing the title simply stays */
+.script-title.written #title-text tspan { animation: none !important; fill-opacity: 1; stroke-opacity: 0; stroke-dashoffset: 0; }
+
+/* the library speaking to you over the scene */
+#whisper {
+  position: fixed; left: 0; right: 0; top: 36%; margin: 0; z-index: 4;
+  text-align: center; pointer-events: none;
+  font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 30px;
+  color: #cdb88f; letter-spacing: 0.04em;
+  text-shadow: 0 0 22px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.9);
+}
+#whisper .w {
+  display: inline-block;
+  opacity: 0; filter: blur(14px); transform: translateY(10px);
+  transition: opacity 2.6s ease, filter 3s ease, transform 3.4s ease;
+}
+#whisper.show { animation: mist-drift 12s linear forwards; }
+#whisper.show .w { opacity: 0.85; filter: blur(0); transform: translateY(0); }
+#whisper.leave .w { opacity: 0; filter: blur(12px); transition: opacity 2.8s ease, filter 3s ease; transition-delay: 0s !important; }
+body.reading #whisper { display: none; }
